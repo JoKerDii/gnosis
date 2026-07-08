@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment config
+.env
+
+# LanceDB local storage
+.lancedb/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Model / HF caches (if pointed locally)
+.cache/
+
+# OS
+.DS_Store

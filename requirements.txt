@@ -1,0 +1,23 @@
+# Core dependencies for Local Markdown Knowledge Graph & Search Agent
+
+# Vector database (embedded, local-first)
+lancedb>=0.13.0
+pyarrow>=15.0.0
+
+# Embeddings — local sentence embedding models
+sentence-transformers>=3.0.0
+
+# CLI framework
+typer>=0.12.0
+
+# Local web server (hybrid "Local Vector Mode" backend)
+fastapi>=0.110.0
+uvicorn>=0.29.0
+
+# Markdown front-matter / metadata parsing
+# Pinned: 1.1.0+ uses `typing.TypeGuard`, which requires Python 3.10+.
+# 1.0.1 is the last release that runs on Python 3.9.
+python-frontmatter==1.0.1
+
+# Environment configuration
+python-dotenv>=1.0.0

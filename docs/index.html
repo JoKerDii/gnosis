@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Markdown Knowledge Search</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Connection mode badge (top-right). JS toggles the class + text. -->
+  <div id="mode-badge" class="badge badge--connecting" title="Connection mode">
+    <span class="badge__dot">●</span>
+    <span id="mode-label">Connecting…</span>
+  </div>
+
+  <main class="container">
+    <header class="hero">
+      <h1>Knowledge Search</h1>
+      <p class="subtitle">Search your local Markdown notes — AI semantic search when the
+        local server is running, instant keyword search otherwise.</p>
+    </header>
+
+    <form id="search-form" class="search-bar" autocomplete="off">
+      <input
+        id="search-input"
+        type="search"
+        name="q"
+        placeholder="Ask a question or type keywords…"
+        aria-label="Search query"
+        autofocus
+      />
+      <button id="search-button" type="submit">Search</button>
+    </form>
+
+    <p id="status-line" class="status-line" aria-live="polite"></p>
+
+    <section id="results" class="results" aria-live="polite"></section>
+  </main>
+
+  <!-- Vendored MiniSearch (UMD) for offline static keyword search. -->
+  <script src="vendor/minisearch.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
