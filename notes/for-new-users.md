@@ -14,3 +14,9 @@ This is a sample Markdown note. Drop your own `.md` files into this folder
 The agent parses front-matter metadata, splits the body into overlapping
 chunks, embeds each chunk with a local Sentence-Transformers model, and stores
 the vectors in LanceDB for fast semantic search — all fully offline.
+
+```
+python -m src.cli scan --rebuild    # a few minutes; re-embeds everything
+python -m src.cli build-web
+```
+
