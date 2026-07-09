@@ -1,0 +1,7 @@
+---
+title: Concerns About AI
+date: 2024-04-21 22:33:46
+tags: ideas
+---
+
+I have read a lot of news and articles, and watched a few interviews regarding AI safety these days. The future of AI is promising. People are working towards more powerful AI and personalized AI assistants or agents. At the same time, AI causes problems. A very obvious downside of AI is people could use AI to do harmful things, but I think we are good to work together and prevent that from different angles such as legal aspect or open source software. I worry more about things that are not easily avoided and cannot be seen at least in these years when AI is still immature - which is being too early to rely on AI and thus deviating from truth. For example, it is too soon for us to lose faith in jobs like teachers, historians, journalists, writers, etc, but I’m concerned we are already losing faith in those jobs because of the development of AI and some violations of copyrighted work. As we have seen AI could have a wrong understanding of facts, have biased opinions, and make things up that don’t exist, we could fight for the truth but the dead cannot speak for themselves. It would be pathetic if humans lived in hallucinations in the future, and I don’t know if there’s any good practice to prevent it. It’s like Pandora’s box is opened and complications cannot be stopped. But we should at least think seriously about the potential impact of AI on society and human consciousness and possible unexpected consequences.
