@@ -300,6 +300,221 @@
   }
 
   // ---------------------------------------------------------------------- //
+  // Minimal, safe Markdown -> HTML (headings, lists, quotes, hr, inline)
+  // ---------------------------------------------------------------------- //
+  function renderInline(text) {
+    let s = escapeHtml(text);
+    s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+    s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    s = s.replace(/(^|[^*])\*([^*]+)\*/g, "$1<em>$2</em>");
+    s = s.replace(/(^|[^_])_([^_]+)_/g, "$1<em>$2</em>");
+    s = s.replace(
+      /\[([^\]]+)\]\((https?:[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener">$1</a>'
+    );
+    // Dim the trailing source citation, e.g. "(Source: … )" / "(Sources: …)".
+    s = s.replace(/(\(Sources?:[^)]*\))\s*$/, '<span class="cite">$1</span>');
+    // Item headlines render on their own line, so drop the "— " that separated
+    // a leading "**Headline** — body" from its body text.
+    s = s.replace(/^(<strong>[^<]*<\/strong>)\s*[—–-]\s+/, "$1 ");
+    return s;
+  }
+
+  // Reports follow PROMPT.md's plain-text layout (no #/## markers). Promote the
+  // known structural lines to Markdown headings so they render as headings.
+  function reportToMarkdown(raw) {
+    const lines = String(raw || "").replace(/\r\n/g, "\n").split("\n");
+    let titled = false;
+    return lines
+      .map((line) => {
+        const t = line.trim();
+        if (!t || /^#{1,6}\s/.test(t)) return line;
+        if (/^Top\s+\d+\s+(Learnings|Trends|Concepts)\b/i.test(t)) return "## " + t;
+        if (/^(Threads and tensions|Watchlist for next period)\b/i.test(t)) return "## " + t;
+        if (!titled && /Reading Report\b/.test(t)) {
+          titled = true;
+          return "# " + t;
+        }
+        return line;
+      })
+      .join("\n");
+  }
+
+  function renderMarkdown(md) {
+    const lines = String(md || "").replace(/\r\n/g, "\n").split("\n");
+    const out = [];
+    let listType = null; // "ul" | "ol" | null
+    let para = [];
+    let quote = [];
+
+    function closeList() {
+      if (listType) {
+        out.push("</" + listType + ">");
+        listType = null;
+      }
+    }
+    function closePara() {
+      if (para.length) {
+        const joined = para.join(" ");
+        const cls = /^Coverage:/i.test(joined.trim()) ? ' class="coverage"' : "";
+        out.push("<p" + cls + ">" + renderInline(joined) + "</p>");
+        para = [];
+      }
+    }
+    function closeQuote() {
+      if (quote.length) {
+        out.push("<blockquote><p>" + renderInline(quote.join(" ")) + "</p></blockquote>");
+        quote = [];
+      }
+    }
+    function closeAll() {
+      closePara();
+      closeList();
+      closeQuote();
+    }
+
+    for (const raw of lines) {
+      const line = raw.replace(/\s+$/, "");
+      if (!line.trim()) {
+        closeAll();
+        continue;
+      }
+      let m;
+      if (/^\s*(-{3,}|\*{3,}|_{3,})\s*$/.test(line)) {
+        closeAll();
+        out.push("<hr />");
+      } else if ((m = line.match(/^(#{1,6})\s+(.*)$/))) {
+        closeAll();
+        const level = Math.min(m[1].length, 6);
+        out.push("<h" + level + ">" + renderInline(m[2]) + "</h" + level + ">");
+      } else if ((m = line.match(/^\s*>\s?(.*)$/))) {
+        closePara();
+        closeList();
+        quote.push(m[1]);
+      } else if ((m = line.match(/^\s*[-*]\s+(.*)$/))) {
+        closePara();
+        closeQuote();
+        if (listType !== "ul") {
+          closeList();
+          out.push("<ul>");
+          listType = "ul";
+        }
+        out.push("<li>" + renderInline(m[1]) + "</li>");
+      } else if ((m = line.match(/^\s*\d+[.)]\s+(.*)$/))) {
+        closePara();
+        closeQuote();
+        if (listType !== "ol") {
+          closeList();
+          out.push("<ol>");
+          listType = "ol";
+        }
+        out.push("<li>" + renderInline(m[1]) + "</li>");
+      } else {
+        closeList();
+        closeQuote();
+        para.push(line.trim());
+      }
+    }
+    closeAll();
+    return out.join("\n");
+  }
+
+  // ---------------------------------------------------------------------- //
+  // Summary report
+  // ---------------------------------------------------------------------- //
+  const reportState = {
+    manifest: null, // { levels: { month:[], quarter:[], year:[] } }
+    cache: new Map(), // file path -> markdown string
+  };
+
+  function setReportStatus(message, isError) {
+    if (!els.reportStatus) return;
+    els.reportStatus.textContent = message || "";
+    els.reportStatus.classList.toggle("error", Boolean(isError));
+  }
+
+  function showReportPlaceholder(message) {
+    if (!els.reportBody) return;
+    els.reportBody.classList.add("empty-state");
+    els.reportBody.textContent = message;
+  }
+
+  async function initReport() {
+    if (!els.reportLevel || !els.reportPeriod || !els.reportBody) return;
+    try {
+      const res = await fetch("reports/index.json", { cache: "no-cache" });
+      if (!res.ok) throw new Error("index.json HTTP " + res.status);
+      const manifest = await res.json();
+      const levels = (manifest && manifest.levels) || {};
+      const hasAny = ["month", "quarter", "year"].some(
+        (k) => Array.isArray(levels[k]) && levels[k].length
+      );
+      if (!hasAny) throw new Error("no reports in manifest");
+      reportState.manifest = manifest;
+      els.reportLevel.addEventListener("change", onLevelChange);
+      els.reportPeriod.addEventListener("change", onPeriodChange);
+      populatePeriods();
+    } catch (err) {
+      console.info("[report] No pre-generated reports available.", err && err.message);
+      if (els.report) {
+        setReportStatus("No reports yet — run `python -m src.cli build-reports`.", true);
+        showReportPlaceholder(
+          "Summary reports have not been generated for this deployment."
+        );
+      }
+    }
+  }
+
+  function currentLevelEntries() {
+    const levels = (reportState.manifest && reportState.manifest.levels) || {};
+    return Array.isArray(levels[els.reportLevel.value]) ? levels[els.reportLevel.value] : [];
+  }
+
+  function populatePeriods() {
+    const entries = currentLevelEntries();
+    els.reportPeriod.innerHTML = entries
+      .map((e, i) => '<option value="' + i + '">' + escapeHtml(e.period) + "</option>")
+      .join("");
+    if (!entries.length) {
+      showReportPlaceholder("No reports at this level.");
+      setReportStatus("");
+      return;
+    }
+    loadReport(entries[0]);
+  }
+
+  function onLevelChange() {
+    populatePeriods();
+  }
+
+  function onPeriodChange() {
+    const entries = currentLevelEntries();
+    const entry = entries[Number(els.reportPeriod.value)];
+    if (entry) loadReport(entry);
+  }
+
+  async function loadReport(entry) {
+    setReportStatus("Loading " + entry.period + "…");
+    try {
+      let md = reportState.cache.get(entry.file);
+      if (md == null) {
+        const res = await fetch("reports/" + entry.file, { cache: "no-cache" });
+        if (!res.ok) throw new Error("report HTTP " + res.status);
+        md = await res.text();
+        reportState.cache.set(entry.file, md);
+      }
+      els.reportBody.classList.remove("empty-state");
+      els.reportBody.innerHTML = renderMarkdown(reportToMarkdown(md));
+      const posts = typeof entry.post_count === "number" ? entry.post_count : "?";
+      setReportStatus(entry.period + " · " + posts + " journal post(s)");
+    } catch (err) {
+      console.warn("[report] Failed to load report:", err);
+      setReportStatus("Could not load this report.", true);
+      showReportPlaceholder("Failed to load " + entry.period + ".");
+    }
+  }
+
+  // ---------------------------------------------------------------------- //
   // Bootstrap
   // ---------------------------------------------------------------------- //
   function onSubmit(e) {
@@ -316,8 +531,17 @@
       form: document.getElementById("search-form"),
       input: document.getElementById("search-input"),
       button: document.getElementById("search-button"),
+      report: document.getElementById("report"),
+      reportLevel: document.getElementById("report-level"),
+      reportPeriod: document.getElementById("report-period"),
+      reportStatus: document.getElementById("report-status"),
+      reportBody: document.getElementById("report-body"),
     };
     if (els.form) els.form.addEventListener("submit", onSubmit);
+    // Load pre-generated reports; independent of the search backend.
+    initReport().catch(function (err) {
+      console.error("[report] Unexpected report init error:", err);
+    });
     // Detect backend; never let a failure bubble up uncaught.
     detectMode().catch(function (err) {
       console.error("[hybrid] Unexpected detection error:", err);

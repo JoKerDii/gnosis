@@ -1,0 +1,390 @@
+{
+  "schema_version": 1,
+  "generator": "openai",
+  "levels": {
+    "month": [
+      {
+        "level": "month",
+        "period": "June 2026",
+        "slug": "2026-06",
+        "file": "month/2026-06.md",
+        "year": 2026,
+        "unit": 6,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "May 2026",
+        "slug": "2026-05",
+        "file": "month/2026-05.md",
+        "year": 2026,
+        "unit": 5,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "March 2026",
+        "slug": "2026-03",
+        "file": "month/2026-03.md",
+        "year": 2026,
+        "unit": 3,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "February 2026",
+        "slug": "2026-02",
+        "file": "month/2026-02.md",
+        "year": 2026,
+        "unit": 2,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "January 2026",
+        "slug": "2026-01",
+        "file": "month/2026-01.md",
+        "year": 2026,
+        "unit": 1,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "December 2025",
+        "slug": "2025-12",
+        "file": "month/2025-12.md",
+        "year": 2025,
+        "unit": 12,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "November 2025",
+        "slug": "2025-11",
+        "file": "month/2025-11.md",
+        "year": 2025,
+        "unit": 11,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "October 2025",
+        "slug": "2025-10",
+        "file": "month/2025-10.md",
+        "year": 2025,
+        "unit": 10,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "September 2025",
+        "slug": "2025-09",
+        "file": "month/2025-09.md",
+        "year": 2025,
+        "unit": 9,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "August 2025",
+        "slug": "2025-08",
+        "file": "month/2025-08.md",
+        "year": 2025,
+        "unit": 8,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "July 2025",
+        "slug": "2025-07",
+        "file": "month/2025-07.md",
+        "year": 2025,
+        "unit": 7,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "June 2025",
+        "slug": "2025-06",
+        "file": "month/2025-06.md",
+        "year": 2025,
+        "unit": 6,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "May 2025",
+        "slug": "2025-05",
+        "file": "month/2025-05.md",
+        "year": 2025,
+        "unit": 5,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "April 2025",
+        "slug": "2025-04",
+        "file": "month/2025-04.md",
+        "year": 2025,
+        "unit": 4,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "March 2025",
+        "slug": "2025-03",
+        "file": "month/2025-03.md",
+        "year": 2025,
+        "unit": 3,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "February 2025",
+        "slug": "2025-02",
+        "file": "month/2025-02.md",
+        "year": 2025,
+        "unit": 2,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "January 2025",
+        "slug": "2025-01",
+        "file": "month/2025-01.md",
+        "year": 2025,
+        "unit": 1,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "December 2024",
+        "slug": "2024-12",
+        "file": "month/2024-12.md",
+        "year": 2024,
+        "unit": 12,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "November 2024",
+        "slug": "2024-11",
+        "file": "month/2024-11.md",
+        "year": 2024,
+        "unit": 11,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "October 2024",
+        "slug": "2024-10",
+        "file": "month/2024-10.md",
+        "year": 2024,
+        "unit": 10,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "September 2024",
+        "slug": "2024-09",
+        "file": "month/2024-09.md",
+        "year": 2024,
+        "unit": 9,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "August 2024",
+        "slug": "2024-08",
+        "file": "month/2024-08.md",
+        "year": 2024,
+        "unit": 8,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "July 2024",
+        "slug": "2024-07",
+        "file": "month/2024-07.md",
+        "year": 2024,
+        "unit": 7,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "June 2024",
+        "slug": "2024-06",
+        "file": "month/2024-06.md",
+        "year": 2024,
+        "unit": 6,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "May 2024",
+        "slug": "2024-05",
+        "file": "month/2024-05.md",
+        "year": 2024,
+        "unit": 5,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "April 2024",
+        "slug": "2024-04",
+        "file": "month/2024-04.md",
+        "year": 2024,
+        "unit": 4,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "March 2024",
+        "slug": "2024-03",
+        "file": "month/2024-03.md",
+        "year": 2024,
+        "unit": 3,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "February 2024",
+        "slug": "2024-02",
+        "file": "month/2024-02.md",
+        "year": 2024,
+        "unit": 2,
+        "post_count": 1
+      },
+      {
+        "level": "month",
+        "period": "January 2024",
+        "slug": "2024-01",
+        "file": "month/2024-01.md",
+        "year": 2024,
+        "unit": 1,
+        "post_count": 1
+      }
+    ],
+    "quarter": [
+      {
+        "level": "quarter",
+        "period": "Q2 2026",
+        "slug": "2026-Q2",
+        "file": "quarter/2026-Q2.md",
+        "year": 2026,
+        "unit": 2,
+        "post_count": 2
+      },
+      {
+        "level": "quarter",
+        "period": "Q1 2026",
+        "slug": "2026-Q1",
+        "file": "quarter/2026-Q1.md",
+        "year": 2026,
+        "unit": 1,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q4 2025",
+        "slug": "2025-Q4",
+        "file": "quarter/2025-Q4.md",
+        "year": 2025,
+        "unit": 4,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q3 2025",
+        "slug": "2025-Q3",
+        "file": "quarter/2025-Q3.md",
+        "year": 2025,
+        "unit": 3,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q2 2025",
+        "slug": "2025-Q2",
+        "file": "quarter/2025-Q2.md",
+        "year": 2025,
+        "unit": 2,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q1 2025",
+        "slug": "2025-Q1",
+        "file": "quarter/2025-Q1.md",
+        "year": 2025,
+        "unit": 1,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q4 2024",
+        "slug": "2024-Q4",
+        "file": "quarter/2024-Q4.md",
+        "year": 2024,
+        "unit": 4,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q3 2024",
+        "slug": "2024-Q3",
+        "file": "quarter/2024-Q3.md",
+        "year": 2024,
+        "unit": 3,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q2 2024",
+        "slug": "2024-Q2",
+        "file": "quarter/2024-Q2.md",
+        "year": 2024,
+        "unit": 2,
+        "post_count": 3
+      },
+      {
+        "level": "quarter",
+        "period": "Q1 2024",
+        "slug": "2024-Q1",
+        "file": "quarter/2024-Q1.md",
+        "year": 2024,
+        "unit": 1,
+        "post_count": 3
+      }
+    ],
+    "year": [
+      {
+        "level": "year",
+        "period": "2026",
+        "slug": "2026",
+        "file": "year/2026.md",
+        "year": 2026,
+        "unit": null,
+        "post_count": 5
+      },
+      {
+        "level": "year",
+        "period": "2025",
+        "slug": "2025",
+        "file": "year/2025.md",
+        "year": 2025,
+        "unit": null,
+        "post_count": 12
+      },
+      {
+        "level": "year",
+        "period": "2024",
+        "slug": "2024",
+        "file": "year/2024.md",
+        "year": 2024,
+        "unit": null,
+        "post_count": 12
+      }
+    ]
+  }
+}

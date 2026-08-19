@@ -16,25 +16,51 @@
   <main class="container">
     <header class="hero">
       <h1>Knowledge Search</h1>
-      <p class="subtitle">Search your local Markdown notes — AI semantic search when the
-        local server is running, instant keyword search otherwise.</p>
+      <p class="subtitle">Your reading journal, distilled into period reports —
+        with AI semantic search over every note below.</p>
     </header>
 
-    <form id="search-form" class="search-bar" autocomplete="off">
-      <input
-        id="search-input"
-        type="search"
-        name="q"
-        placeholder="Ask a question or type keywords…"
-        aria-label="Search query"
-        autofocus
-      />
-      <button id="search-button" type="submit">Search</button>
-    </form>
+    <!-- Summary report (top of page). -->
+    <section id="report" class="report" aria-labelledby="report-heading">
+      <div class="report-bar">
+        <h2 id="report-heading" class="report-heading">Summary Report</h2>
+        <div class="report-controls">
+          <label class="control">
+            <span class="control-label">Level</span>
+            <select id="report-level" aria-label="Report level">
+              <option value="month">Monthly</option>
+              <option value="quarter">Quarterly</option>
+              <option value="year">Yearly</option>
+            </select>
+          </label>
+          <label class="control">
+            <span class="control-label">Period</span>
+            <select id="report-period" aria-label="Report period"></select>
+          </label>
+        </div>
+      </div>
+      <p id="report-status" class="report-status" aria-live="polite"></p>
+      <article id="report-body" class="report-body markdown"></article>
+    </section>
 
-    <p id="status-line" class="status-line" aria-live="polite"></p>
+    <!-- Search (bottom of page). -->
+    <section class="search-section" aria-labelledby="search-heading">
+      <h2 id="search-heading" class="search-heading">Search the notes</h2>
+      <form id="search-form" class="search-bar" autocomplete="off">
+        <input
+          id="search-input"
+          type="search"
+          name="q"
+          placeholder="Ask a question or type keywords…"
+          aria-label="Search query"
+        />
+        <button id="search-button" type="submit">Search</button>
+      </form>
 
-    <section id="results" class="results" aria-live="polite"></section>
+      <p id="status-line" class="status-line" aria-live="polite"></p>
+
+      <section id="results" class="results" aria-live="polite"></section>
+    </section>
   </main>
 
   <!-- Vendored MiniSearch (UMD) for offline static keyword search. -->
