@@ -364,6 +364,98 @@ def build_web(
 
 
 # --------------------------------------------------------------------------- #
+# build-reports  (pre-generate period summary reports for the web UI)
+# --------------------------------------------------------------------------- #
+@app.command(name="build-reports")
+def build_reports_cmd(
+    directory: Optional[Path] = typer.Option(
+        None, "--dir", "-d", help="Directory of Markdown notes (overrides KNOWLEDGE_DIR)."
+    ),
+    out: Optional[Path] = typer.Option(
+        None, "--out", "-o", help="Output directory (default: <DOCS_DIR>/reports)."
+    ),
+    generator: Optional[str] = typer.Option(
+        None,
+        "--generator",
+        "-g",
+        help="Generator: 'stub', 'openai', or 'module:Class' "
+        "(default: REPORT_GENERATOR env, else 'stub').",
+    ),
+    only: Optional[str] = typer.Option(
+        None,
+        "--only",
+        help="Generate only one level: 'month', 'quarter', or 'year'. "
+        "Other levels are left as-is (roll-ups reuse existing child reports).",
+    ),
+) -> None:
+    """Pre-generate month/quarter/year reading reports for the web UI.
+
+    Discovers journal posts (front-matter ``tags: readings``), groups them into
+    periods, and writes one Markdown report per period plus an ``index.json``
+    manifest. Choose the synthesis engine with ``--generator`` (e.g. ``openai``)
+    or the ``REPORT_GENERATOR`` env var; the default stub writes placeholders.
+    """
+    from .reports import build_reports, load_generator, resolve_generator
+
+    s = get_settings()
+    root = Path(directory or s.knowledge_dir)
+    out_dir = Path(out) if out else s.docs_dir / "reports"
+
+    if not root.exists():
+        raise _fail(
+            f"directory does not exist: {root}\n"
+            "Set KNOWLEDGE_DIR in your .env or pass --dir /path/to/notes."
+        )
+    if root.is_file():
+        raise _fail(f"expected a directory but got a file: {root}")
+
+    only_levels = None
+    if only:
+        level = only.strip().lower()
+        if level not in ("month", "quarter", "year"):
+            raise _fail("--only must be one of: month, quarter, year")
+        only_levels = {level}
+
+    try:
+        gen = resolve_generator(generator) if generator else load_generator()
+    except Exception as exc:  # noqa: BLE001 - surface config errors cleanly
+        raise _fail(str(exc))
+    gen_name = getattr(gen, "name", "unknown")
+    scope = f" ([bold]{only_levels and next(iter(only_levels))}[/] only)" if only_levels else ""
+    console.print(
+        f"Building reports{scope} from [cyan]{root}[/] "
+        f"using generator [bold]{gen_name}[/] …"
+    )
+    if gen_name != "stub":
+        console.print("[dim]This calls an external LLM API and may take a while.[/]")
+    try:
+        with console.status("[dim]Generating reports…[/]", spinner="dots"):
+            result = build_reports(root, out_dir, generator=gen, only=only_levels)
+    except FileNotFoundError as exc:
+        raise _fail(str(exc))
+    except Exception as exc:  # noqa: BLE001 - surface generator/API errors cleanly
+        raise _fail(f"report generation failed: {exc}")
+
+    if result["posts"] == 0:
+        console.print(
+            f"[yellow]No journal posts (tags: readings) with dates found under {root}.[/]"
+        )
+        return
+
+    table = Table(show_header=False, box=None, padding=(0, 2, 0, 0))
+    table.add_column(style="dim")
+    table.add_column(justify="right", style="bold")
+    table.add_row("Journal posts", str(result["posts"]))
+    table.add_row("Month reports", str(result["month"]))
+    table.add_row("Quarter reports", str(result["quarter"]))
+    table.add_row("Year reports", str(result["year"]))
+    table.add_row("Output", str(out_dir))
+    console.print(
+        Panel(table, title="[bold green]Reports built[/]", border_style="green")
+    )
+
+
+# --------------------------------------------------------------------------- #
 # serve  (launch the local FastAPI vector-search backend)
 # --------------------------------------------------------------------------- #
 @app.command()

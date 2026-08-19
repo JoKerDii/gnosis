@@ -21,3 +21,6 @@ python-frontmatter==1.0.1
 
 # Environment configuration
 python-dotenv>=1.0.0
+
+# OpenAI generator for `build-reports --generator openai` (optional feature).
+openai>=1.30.0
